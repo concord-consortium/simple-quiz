@@ -1,4 +1,7 @@
 Quiz::Application.routes.draw do
+  resources :responses
+
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
