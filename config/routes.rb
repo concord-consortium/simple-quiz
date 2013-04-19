@@ -1,7 +1,9 @@
 Quiz::Application.routes.draw do
+  devise_for :users
+
   resources :responses
 
-
+  root :to => "responses#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
