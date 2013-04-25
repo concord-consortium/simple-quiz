@@ -7,7 +7,7 @@ class User < ActiveRecord::Base
   devise :omniauthable, :omniauth_providers => [:concord_portal]
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :provider, :uid, :token
 
   def self.find_for_concord_portal_oauth(auth, signed_in_resource=nil)
     user = User.where(provider: auth.provider, uid: auth.uid).first
@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
                          password:Devise.friendly_token[0,20]
                         )
     end
+    user.token = auth.credentials.token
+    user.save
     user
   end
 end

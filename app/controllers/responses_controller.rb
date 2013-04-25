@@ -60,6 +60,15 @@ class ResponsesController < ApplicationController
 
     respond_to do |format|
       if @response.update_attributes(params[:response])
+        if @response.run && @response.run.return_url
+          # send the data back to the portal
+          data = [{
+            "type" =>        "open_response",
+            "question_id" => "1",
+            "answer" =>      params[:response][:answer]
+          }]
+          HTTParty.post(@response.run.return_url, :body => {:oauth_token => current_user.token, :content => data.to_json })
+        end
         format.html { redirect_to @response, notice: 'Response was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,16 +91,20 @@ class ResponsesController < ApplicationController
   end
 
   def run
-    # TODO Actually use the passed params
-    # domain = params[:domain]
-    # external_id = params[:externalId]
-    # return_url = params[:returnUrl]
     if current_user.nil?
       session[:auth_return_url] = request.url
       redirect_to user_omniauth_authorize_path(:concord_portal)
     else
-      response = Response.create
-      redirect_to edit_response_path(response)
+      domain = params[:domain]
+      external_id = params[:externalId]
+      return_url = params[:returnUrl]
+
+      run = Run.find_or_create_by_key(Run.key_for(domain, external_id))
+      run.return_url = return_url
+      run.response = Response.create unless run.response_id
+      run.save
+
+      redirect_to edit_response_path(run.response)
     end
   end
 end

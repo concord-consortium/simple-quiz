@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  key: MyString
+  response_id: 1
+  return_url: MyString
+
+two:
+  key: MyString
+  response_id: 1
+  return_url: MyString
