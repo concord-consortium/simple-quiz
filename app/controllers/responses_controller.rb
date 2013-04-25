@@ -80,4 +80,18 @@ class ResponsesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def run
+    # TODO Actually use the passed params
+    # domain = params[:domain]
+    # external_id = params[:externalId]
+    # return_url = params[:returnUrl]
+    if current_user.nil?
+      session[:auth_return_url] = request.url
+      redirect_to user_omniauth_authorize_path(:concord_portal)
+    else
+      response = Response.create
+      redirect_to edit_response_path(response)
+    end
+  end
 end
