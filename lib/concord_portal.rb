@@ -16,7 +16,7 @@ module OmniAuth
 
       info do
         {
-          :email => raw_info['email']
+          :email => raw_info['info']['email']
         }
       end
 
