@@ -67,7 +67,8 @@ class ResponsesController < ApplicationController
             "question_id" => "1",
             "answer" =>      params[:response][:answer]
           }]
-          HTTParty.post(@response.run.return_url, :body => {:oauth_token => current_user.token, :content => data.to_json })
+          bearer_token = 'Bearer %s' % current_user.token
+          HTTParty.post(@response.run.return_url, :body => data.to_json, :headers => {"Authorization" => bearer_token, "Content-Type" => 'application/json'})
         end
         format.html { redirect_to @response, notice: 'Response was successfully updated.' }
         format.json { head :no_content }
