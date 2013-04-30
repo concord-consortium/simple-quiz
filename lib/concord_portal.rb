@@ -4,7 +4,7 @@ module OmniAuth
     class ConcordPortal < OmniAuth::Strategies::OAuth2
       option :name, 'concord_portal'
 
-      CUSTOM_PROVIDER_URL = 'http://localhost:3000'
+      CUSTOM_PROVIDER_URL = (ENV['CONCORD_PORTAL_URL'] || 'http://localhost:3000')
 
       option :client_options, {
         :site =>  CUSTOM_PROVIDER_URL,
