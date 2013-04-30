@@ -10,7 +10,10 @@
 <ul class="hmenu">
   <%= render 'users/menu/registration_items' %>
   <%= render 'users/menu/login_items' %>
+  <%= render 'users/menu/publish_items' %>
 </ul>
+<p><%= flash[:notice] %></p>
+<p style="color: red;"><%= flash[:error] %></p>
 <%= yield %>
 
 </body>

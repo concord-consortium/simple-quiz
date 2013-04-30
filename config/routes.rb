@@ -1,6 +1,8 @@
 Quiz::Application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
 
+  match '/publish' => 'publishing#publish', :as => :portal_publish, :method => :get
+
   match '/responses/run' => 'responses#run', :as => :responses_run, :method => :get
   resources :responses
 
